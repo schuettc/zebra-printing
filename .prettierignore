@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# CDK outputs
+cdk.out
+infra/cdk.out
+
+# Browser Print SDK files (minified vendor code)
+frontend/public/js/*.min.js
+
+# Generated files
+coverage
+
+# Package manager files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

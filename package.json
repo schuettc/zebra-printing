@@ -1,0 +1,44 @@
+{
+  "name": "zebra-printing-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Workspace for zebra printing application",
+  "scripts": {
+    "dev": "pnpm --filter frontend dev",
+    "build": "pnpm --filter frontend build",
+    "deploy": "./deploy.sh",
+    "deploy:dev": "./deploy.sh dev",
+    "deploy:prod": "./deploy.sh prod",
+    "deploy:dev:profile": "./deploy.sh dev $npm_config_profile",
+    "deploy:prod:profile": "./deploy.sh prod $npm_config_profile",
+    "cdk:synth": "pnpm --filter infra cdk synth",
+    "cdk:synth:dev": "pnpm --filter infra cdk synth --context environment=dev",
+    "cdk:synth:prod": "pnpm --filter infra cdk synth --context environment=prod",
+    "cdk:diff": "pnpm --filter infra cdk diff",
+    "cdk:diff:dev": "pnpm --filter infra cdk diff --context environment=dev",
+    "cdk:diff:prod": "pnpm --filter infra cdk diff --context environment=prod",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.32.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,md,yaml,yml}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
+  },
+  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
+}

@@ -1,0 +1,8 @@
+{
+  "region": "us-east-1",
+  "userPoolId": "us-east-1_XXXXXXXXX",
+  "userPoolClientId": "your-client-id",
+  "cognitoDomain": "auth.yourdomain.com",
+  "identityPoolId": "us-east-1:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "siteRegion": "us-east-1"
+}

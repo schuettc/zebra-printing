@@ -1,0 +1,14 @@
+{
+  "printers": [
+    {
+      "id": "dev-test-1",
+      "name": "Development Test Printer",
+      "ip": "192.168.1.100",
+      "port": 9100,
+      "location": "Dev Lab",
+      "description": "Test printer for development",
+      "model": "ZD421CN",
+      "capabilities": ["4x6", "2x1", "thermal"]
+    }
+  ]
+}

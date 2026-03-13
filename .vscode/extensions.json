@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", // ESLint
+    "esbenp.prettier-vscode", // Prettier
+    "editorconfig.editorconfig", // EditorConfig
+    "amazonwebservices.aws-toolkit-vscode", // AWS Toolkit (useful for CDK)
+    "ms-vscode.vscode-typescript-next", // For latest TypeScript features in VS Code
+    "redhat.vscode-yaml", // YAML support (for pnpm-workspace.yaml, etc.)
+    "streetsidesoftware.code-spell-checker" // Spell checker
+  ]
+}

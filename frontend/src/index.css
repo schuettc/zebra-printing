@@ -1,0 +1,118 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+:root {
+  --background: oklch(100% 0 0);
+  --foreground: oklch(23.99% 0.021 265.75);
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(23.99% 0.021 265.75);
+  --popover: oklch(100% 0 0);
+  --popover-foreground: oklch(23.99% 0.021 265.75);
+  --primary: oklch(60.16% 0.24 262.88);
+  --primary-foreground: oklch(97.78% 0.014 247.36);
+  --secondary: oklch(96.34% 0.011 264.54);
+  --secondary-foreground: oklch(23.83% 0.021 265.75);
+  --muted: oklch(96.34% 0.011 264.54);
+  --muted-foreground: oklch(49.97% 0.013 264.64);
+  --accent: oklch(96.34% 0.011 264.54);
+  --accent-foreground: oklch(23.83% 0.021 265.75);
+  --destructive: oklch(62.78% 0.258 29.23);
+  --destructive-foreground: oklch(97.78% 0.014 247.36);
+  --border: oklch(92.64% 0.008 264.97);
+  --input: oklch(92.64% 0.008 264.97);
+  --ring: oklch(60.16% 0.24 262.88);
+  --radius: 0.5rem;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+}
+
+.dark {
+  --background: oklch(23.99% 0.021 265.75);
+  --foreground: oklch(97.78% 0.014 247.36);
+  --card: oklch(23.99% 0.021 265.75);
+  --card-foreground: oklch(97.78% 0.014 247.36);
+  --popover: oklch(23.99% 0.021 265.75);
+  --popover-foreground: oklch(97.78% 0.014 247.36);
+  --primary: oklch(73.46% 0.189 263.32);
+  --primary-foreground: oklch(23.83% 0.021 265.75);
+  --secondary: oklch(31.27% 0.022 264.9);
+  --secondary-foreground: oklch(97.78% 0.014 247.36);
+  --muted: oklch(31.27% 0.022 264.9);
+  --muted-foreground: oklch(71.19% 0.013 257.21);
+  --accent: oklch(31.27% 0.022 264.9);
+  --accent-foreground: oklch(97.78% 0.014 247.36);
+  --destructive: oklch(42.86% 0.192 27.33);
+  --destructive-foreground: oklch(97.78% 0.014 247.36);
+  --border: oklch(31.27% 0.022 264.9);
+  --input: oklch(31.27% 0.022 264.9);
+  --ring: oklch(55.93% 0.228 263.85);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+}
+
+/* Apply the theme */
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+
+/* Animations */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}

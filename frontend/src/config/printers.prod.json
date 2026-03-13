@@ -1,0 +1,14 @@
+{
+  "printers": [
+    {
+      "id": "main-lab-printer",
+      "name": "Main Lab Printer",
+      "ip": "192.168.1.100",
+      "port": 9100,
+      "location": "Lab",
+      "description": "Main Lab Printer",
+      "model": "ZD421CN",
+      "capabilities": ["4x6", "2x1", "thermal"]
+    }
+  ]
+}

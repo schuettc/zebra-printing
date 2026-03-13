@@ -1,0 +1,66 @@
+name: Deploy to Dev Environment
+
+on:
+  push:
+    branches:
+      - develop
+      - 'feature/**' # Using single quotes for glob pattern
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+  pull-requests: write # Required to create PRs
+
+jobs:
+  build_and_deploy_dev:
+    runs-on: ubuntu-latest
+    environment: dev # Optional: define a 'dev' environment in GitHub for consistency
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # Or your specific pnpm version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Or your project's Node.js version
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter infra...
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_DEV }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-session-name: GitHubActionsDevDeploy
+
+      - name: CDK Deploy to Dev
+        run: |
+          STACK_SUFFIX="-dev"
+          # If deploying a feature branch, you might want a more unique stack name
+          # For example, derive from the branch name, sanitized for CFN.
+          # This example assumes all feature branches and 'develop' deploy to the same '*-dev' stacks.
+          pnpm --filter infra cdk deploy "*${STACK_SUFFIX}" \
+            -c environment=dev \
+            --require-approval never \
+            --outputs-file cdk-outputs-dev.json
+        env:
+          # Pass any other necessary environment variables for CDK
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} # Example, if needed by your CDK
+
+      - name: Create Pull Request to main (if on develop branch)
+        if: github.ref == 'refs/heads/develop' && success()
+        run: |
+          gh pr create \
+            --base main \
+            --head develop \
+            --title "Merge develop into main (Automated PR)" \
+            --body "Automated PR created after successful deployment of 'develop' to the dev environment."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GITHUB_TOKEN has permissions to create PRs

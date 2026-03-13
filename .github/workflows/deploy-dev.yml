@@ -1,11 +1,11 @@
 name: Deploy to Dev Environment
 
 on:
-  workflow_dispatch: # Manual trigger only — uncomment push trigger when ready
-  # push:
-  #   branches:
-  #     - develop
-  #     - 'feature/**'
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - 'feature/**'
 
 permissions:
   id-token: write # Required for OIDC
@@ -52,8 +52,10 @@ jobs:
             --require-approval never \
             --outputs-file cdk-outputs-dev.json
         env:
-          # Pass any other necessary environment variables for CDK
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} # Example, if needed by your CDK
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          DEV_DOMAIN_NAME: ${{ secrets.DEV_DOMAIN_NAME }}
+          DEV_HOSTED_ZONE_ID: ${{ secrets.DEV_HOSTED_ZONE_ID }}
+          DEV_ALLOWED_EMAIL_DOMAINS: ${{ secrets.DEV_ALLOWED_EMAIL_DOMAINS }}
 
       - name: Create Pull Request to main (if on develop branch)
         if: github.ref == 'refs/heads/develop' && success()

@@ -4,9 +4,23 @@ import * as cdk from 'aws-cdk-lib';
 import { ZebraPrintingStack } from './stacks/zebra-printing-stack';
 import { CognitoStack } from './stacks/cognito-stack';
 import { DnsStack } from './stacks/dns-stack';
+import { GitHubOidcStack } from './stacks/github-oidc-stack';
 
 const app = new cdk.App();
 
+// Common AWS environment config
+const awsEnv = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: 'us-east-1', // Ensure this is us-east-1 if certificates are validated here
+};
+
+// GitHub Actions OIDC role (environment-independent, one per account)
+new GitHubOidcStack(app, 'ZebraPrintingOidcStack', {
+  githubRepo: process.env.GITHUB_REPO || 'schuettc/zebra-printing',
+  env: awsEnv,
+});
+
+// Environment-specific stacks
 const environments = {
   prod: {
     domainName: process.env.PROD_DOMAIN_NAME || 'example.com',
@@ -28,20 +42,7 @@ const environments = {
 
 const envKey = app.node.tryGetContext('environment') || 'dev';
 const selectedEnv =
-  environments[envKey as keyof typeof environments] || environments.dev; // Default to dev
-
-if (!selectedEnv.hostedZoneId) {
-  throw new Error(
-    `Hosted Zone ID not configured for ${envKey} environment. ` +
-      `Set ${envKey.toUpperCase()}_HOSTED_ZONE_ID environment variable.`
-  );
-}
-
-// Common AWS environment config
-const awsEnv = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: 'us-east-1', // Ensure this is us-east-1 if certificates are validated here
-};
+  environments[envKey as keyof typeof environments] || environments.dev;
 
 new DnsStack(app, `ZebraPrintingDNSStack-${selectedEnv.environment}`, {
   environment: selectedEnv.environment,
@@ -52,11 +53,11 @@ new DnsStack(app, `ZebraPrintingDNSStack-${selectedEnv.environment}`, {
 
 new CognitoStack(app, `ZebraPrintCognitoStack-${selectedEnv.environment}`, {
   environment: selectedEnv.environment,
-  domainName: selectedEnv.domainName, // Base domain for auth subdomain construction
+  domainName: selectedEnv.domainName,
   allowedEmailDomains: selectedEnv.allowedEmailDomains,
   env: awsEnv,
 });
-// Create stack with environment suffix
+
 new ZebraPrintingStack(app, `ZebraPrintingStack-${selectedEnv.environment}`, {
   environment: selectedEnv.environment,
   domainName: selectedEnv.domainName,

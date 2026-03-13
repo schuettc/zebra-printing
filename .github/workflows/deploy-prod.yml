@@ -1,9 +1,10 @@
 name: Deploy to Prod Environment
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Manual trigger only — uncomment push trigger when ready
+  # push:
+  #   branches:
+  #     - main
 
 permissions:
   id-token: write # Required for OIDC
